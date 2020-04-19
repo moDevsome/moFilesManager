@@ -557,7 +557,7 @@ class File {
         // Check the file type
         if( count($allowed_types) > 0) {
 
-            if(!in_array( $this->mime_types_object->getType( $tmp_name ), $allowed_types)) {
+            if(!in_array( $this->mime_types_object->getType( mime_content_type($tmp_name) ), $allowed_types)) {
 
                 $this->upload_error[] = 'TYPE_ERROR';
 
