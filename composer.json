@@ -1,0 +1,23 @@
+{
+    "name": "modevsome/mofilesmanager",
+    "description": "A small library for handling files and folders more easier.",
+    "keywords": ["files", "folders","file","folder","helper"],
+    "type": "library",
+    "require-dev": {
+        "phpunit/phpunit": "^8.5.3"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Mickaël Outhier",
+            "email": "contact@mickael-outhier.fr"
+        }
+    ],
+    "minimum-stability": "stable",
+    "autoload": {
+        "files": ["src/moFilesManager.php"]"
+    },
+    "require": {
+        "php": ">=7.0.0"
+    }
+}
