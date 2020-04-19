@@ -15,7 +15,7 @@
     ],
     "minimum-stability": "stable",
     "autoload": {
-        "files": ["src/moFilesManager.php"]"
+        "files": ["src/moFilesManager.php"]
     },
     "require": {
         "php": ">=7.0.0"
