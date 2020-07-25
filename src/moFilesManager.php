@@ -140,7 +140,16 @@ class moFilesManager {
 
         }
 
-        return DIRECTORY_SEPARATOR.implode(DIRECTORY_SEPARATOR, $output);
+        if(PHP_OS === 'WINNT') {
+
+            return implode(DIRECTORY_SEPARATOR, $output);
+        
+        }
+        else {
+        
+            return DIRECTORY_SEPARATOR.implode(DIRECTORY_SEPARATOR, $output);
+        
+        }
     }
 
 
