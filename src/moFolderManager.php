@@ -775,7 +775,22 @@ class Folder {
         $parent_path = '';
         foreach(array_diff( explode(DIRECTORY_SEPARATOR, $this->path) , array('') )  as $path_segment ) {
 
-            $parent_path.= DIRECTORY_SEPARATOR.$path_segment;
+	    //  2020-07-26. The following lines has been added for OS compatibility
+            if(strlen($parent_path) === 0 AND PHP_OS === 'WINNT') {
+
+                $parent_path.= $path_segment;
+            
+            }
+            elseif(strlen($parent_path) === 0 AND PHP_OS !== 'WINNT') {
+            
+                $parent_path.= DIRECTORY_SEPARATOR.$path_segment;
+            
+            }
+            else {
+
+                $parent_path.= DIRECTORY_SEPARATOR.$path_segment;
+
+            }
 
             if(!is_dir($parent_path) AND $error === FALSE) {
 
