@@ -34,7 +34,7 @@ use moFilesManager;
  * File handler class.
  *
  * @since       1.1.0
- * @version     Last change on 1.1.3 // 2021-01-21
+ * @version     Last change on 1.1.3 // 2021-01-02
  */
 class File {
 
@@ -443,7 +443,7 @@ class File {
 	 * @return  bool  TRUE in case of success, else FALSE
 	 *
 	 * @since   1.1.0
-     * @version Last change on 1.1.4 // 2020-12-20
+     * @version Last change on 1.1.3 // 2020-12-20
 	 */
     public function write(bool $replace = TRUE) : bool {
 
@@ -530,6 +530,7 @@ class File {
 	 * @return  bool  TRUE in case of success, else FALSE
 	 *
 	 * @since   1.1.0
+     * @version Last change on 1.1.1 // 2020-04-19
 	 */
     public function upload(string $tmp_name, bool $replace = TRUE, array $allowed_types = array(), int $max_size = 0) : bool {
 
