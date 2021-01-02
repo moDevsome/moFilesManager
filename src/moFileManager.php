@@ -5,7 +5,7 @@
  * 
  * @author Mickaël Outhier <contact@mickael-outhier.fr>
  *
- * @copyright (c) 2019 Mickaël Outhier (contact@mickael-outhier.fr)
+ * @copyright (c) 2021 Mickaël Outhier (contact@mickael-outhier.fr)
  *  
  * @license The MIT License (MIT)
  *
@@ -33,7 +33,8 @@ use moFilesManager;
 /**
  * File handler class.
  *
- * @since       1.0.0
+ * @since       1.1.0
+ * @version     Last change on 1.1.3 // 2021-01-21
  */
 class File {
 
@@ -67,7 +68,7 @@ class File {
      * 
      * @return  string $path
 	 *
-	 * @since   1.0.0
+	 * @since   1.1.0
 	 */
     private function formatPath(string $path) : string {
         
@@ -82,7 +83,7 @@ class File {
      * 
      * @return  object  The current file object
 	 *
-	 * @since   1.0.0
+	 * @since   1.1.0
 	 */
     public function setPath(string $path) : object {
 
@@ -169,7 +170,7 @@ class File {
 	 *
 	 * @return  string  The current file content
 	 *
-	 * @since   1.0.0
+	 * @since   1.1.0
 	 */
     public function getContent() : string {
 
@@ -196,7 +197,7 @@ class File {
 	 *
 	 * @return  object  The current file object
 	 *
-	 * @since   1.0.0
+	 * @since   1.1.0
 	 */
     public function setContent(string $content) : object {
 
@@ -229,7 +230,7 @@ class File {
 	 *
 	 * @return  object  The current file object
 	 *
-	 * @since   1.0.0
+	 * @since   1.1.0
 	 */
     public function addContent(string $content, bool $prepend = FALSE) : object {
 
@@ -281,7 +282,7 @@ class File {
 	 *
 	 * @return  bool  TRUE in case of success, else FALSE
 	 *
-	 * @since   1.0.0
+	 * @since   1.1.0
 	 */
     public function copy(string $copy_path, bool $replace = TRUE) : bool {
 
@@ -337,7 +338,7 @@ class File {
 	 *
 	 * @return  bool  TRUE in case of success, else FALSE
 	 *
-	 * @since   1.0.0
+	 * @since   1.1.0
 	 */
     public function rename(string $new_name, bool $replace = TRUE) : bool {
 
@@ -386,7 +387,7 @@ class File {
 	 *
 	 * @return  bool  TRUE in case of success, else FALSE
 	 *
-	 * @since   1.0.0
+	 * @since   1.1.0
 	 */
     public function move(string $new_path, bool $replace = TRUE) : bool {
 
@@ -441,7 +442,8 @@ class File {
 	 *
 	 * @return  bool  TRUE in case of success, else FALSE
 	 *
-	 * @since   1.0.0
+	 * @since   1.1.0
+     * @version Last change on 1.1.4 // 2020-12-20
 	 */
     public function write(bool $replace = TRUE) : bool {
 
@@ -450,6 +452,23 @@ class File {
             moFilesManager\moFilesManager::addLog('the file "'.$this->path.'" has not been written it already exist and Replace is set to FALSE. Return FALSE.', 'WARNING');
             return FALSE;
         
+        }
+
+        // We need to create the folder if it does not exist
+        if(is_dir($this->folder) === FALSE) {
+
+            $folder_obj = new Folder($this->folder);
+            if($folder_obj->create() === FALSE) {
+
+                unset($folder_obj);
+
+                moFilesManager\moFilesManager::addLog('the file "'.$this->path.'" has not been written because the folder cannot be created. Return FALSE.', 'WARNING');
+                return FALSE;
+
+            }
+
+            unset($folder_obj);
+
         }
 
         $stream = fopen($this->path, 'w+');
@@ -474,7 +493,7 @@ class File {
 	 *
 	 * @return  bool  TRUE in case of success, else FALSE
 	 *
-	 * @since   1.0.0
+	 * @since   1.1.0
 	 */
     public function delete() : bool {
 
@@ -510,7 +529,7 @@ class File {
      * 
 	 * @return  bool  TRUE in case of success, else FALSE
 	 *
-	 * @since   1.0.0
+	 * @since   1.1.0
 	 */
     public function upload(string $tmp_name, bool $replace = TRUE, array $allowed_types = array(), int $max_size = 0) : bool {
 
