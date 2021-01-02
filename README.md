@@ -2,7 +2,89 @@ moFilesManager is a small library for handling files and folders more easier in 
 
 The library provide two objects, one for handling files and one for handling folders.
 
-## moFilesManager\File class summary
+## moFilesManager\Folder methodes summary
+
+### Create a Folder instance
+```php
+$folder_object = new moFilesManager\Folder( $folder_path );
+```
+This method return an instance of the Folder class.
+The path is optionnal at this step, and can be changed later.
+
+### Change the path
+```php
+$folder_object->setPath( $new_folder_path );
+```
+This method change the path value of the Folder object.
+This method is fluent, it return the current object.
+
+### Create the folder
+```php
+$folder_object->create();
+```
+This method create the folder on the disk.
+This method return TRUE in case of success, else FALSE.
+
+### Copy the folder
+```php
+$folder_object->copy(string $copy_path, $replace);
+```
+This method recursively duplicat the current folder at the provided location defined in the required $copy_path param. All the content of the folder will be duplicated, including files and subfolders.  
+The boolean param $replace is optionnal. If the param is equal to TRUE, the folder we be replaced if it already exist, if tthe param is equal to FALSE, the existing folder will be not replaced. By default the param is equal to TRUE.  
+This method return TRUE in case of success, else FALSE.
+
+### Rename the folder
+```php
+$folder_object->rename(string $new_name, $replace);
+```
+This method change the name of the current folder. The provided $new_name should not be a path, just a folder name.  
+The boolean param $replace is optionnal. If the param is equal to TRUE, the folder we be replaced if it already exist, if tthe param is equal to FALSE, the existing folder will be not replaced. By default the param is equal to TRUE.  
+This method return TRUE in case of success, else FALSE.
+
+### Move the folder
+```php
+$folder_object->move(string $new_path, $replace);
+```
+This method duplicat the current folder at the provided location defined in the required $copy_path param. All the content of the folder will be moved, including files and subfolders.  
+The boolean param $replace is optionnal. If the param is equal to TRUE, the folder we be replaced if it already exist, if tthe param is equal to FALSE, the existing folder will be not replaced. By default the param is equal to TRUE.  
+This method return TRUE in case of success, else FALSE.
+
+### Drain the folder
+```php
+$folder_object->drain();
+```
+This method recursively remove all items contained into the folder.  
+A rollback function minimise the impact of eventuel errors occurred during the process.  
+This method return TRUE in case of success, else FALSE.
+
+### Delete the folder
+```php
+$folder_object->delete();
+```
+This method delete the folder, even if there's files or subfolders contained in the folder.  
+A rollback function minimise the impact of eventuel errors occurred during the process.  
+This method return TRUE in case of success, else FALSE.
+
+### Make a Zip archive of the folder
+```php
+$folder_object->zip(string $archive_path = '', $replace, $options);
+```
+All the items will be recursively added in the archive.    
+@param string  $archive_name : The path of the zip file that will be made. Default : The folder parent path    
+@param boolean  $replace : True to replace the current file if it already exist. Default : TRUE    
+@param array  $options : An array containing some options : 'compression_method', 'compression_level'    
+This method return TRUE in case of success, else FALSE.
+
+### Extract an archive zip into the the current folder
+```php
+$folder_object->unzip(string $archive_path = '', $replace);
+```
+The path of the zip file must be provided throw the param $archive_path.  
+The boolean param $replace is optionnal. If the param is equal to TRUE, the folder we be replaced if it already exist, if the param is equal to FALSE, the existing folder will be not replaced. By default the param is equal to TRUE.  
+A rollback function minimise the impact of eventuel errors occurred during the process. 
+This method return TRUE in case of success, else FALSE.
+
+## moFilesManager\File methodes summary
 
 ### Create a File instance
 ```php
@@ -48,7 +130,6 @@ This method save the current file on the disk.
 The boolean param $replace is optionnal. If the param is equal to TRUE, the file we be replaced if it already exist, if tthe param is equal to FALSE, the existing file will be not replaced. By default the param is equal to TRUE.  
 This method return TRUE in case of success, else FALSE.
 
-
 ### Copy the current file
 ```php
 $file_object->copy(string $copy_path, bool $replace);
@@ -73,7 +154,6 @@ This method move the current file at the provided location defined in the requir
 The boolean param $replace is optionnal. If the param is equal to TRUE, the file we be replaced if it already exist, if tthe param is equal to FALSE, the existing file will be not replaced. By default the param is equal to TRUE.  
 This method return TRUE in case of success, else FALSE.
 
-
 ### Delete the current file
 ```php
 $file_object->delete();
@@ -91,3 +171,36 @@ This method upload a file.
 @param $allowed_types : An array which contain one or more file type that will be accepted, if this param if empty, all types will be accepted.  
 @param $max_size : The allowed maximum file size (must be provided in OCTET).  
 This method return TRUE in case of success, else FALSE.
+
+## moFilesManager\moFilesManager methodes summary
+
+**The following methods must be called statically.**
+
+### Enable/Disable debuging
+By default debuging is disabled, set debuging to TRUE if you want to use the trace log
+```php
+moFilesManager\moFilesManager::setDebugState(bool $state);
+```
+Return nothing (void)
+
+### Get the current debuging state
+```php
+moFilesManager\moFilesManager::getDebugState();
+```
+### Get all recorded traces
+```php
+moFilesManager\moFilesManager::getLogs();
+```
+Return an array containing all recorded traces during the several process
+
+### Get the last recorded trace
+```php
+moFilesManager\moFilesManager::getLastLog();
+```
+Return a string which contain the last logged content
+
+### Rebuild and Secure a given path by removing illegitimate directory separator
+```php
+moFilesManager\moFilesManager::formatPath(string $path);
+```
+Return a string which contain the cleaned path
