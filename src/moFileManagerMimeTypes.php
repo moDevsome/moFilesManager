@@ -7,13 +7,9 @@
  * 
  * Required PHP Version : PHP 7.0 or higher
  * 
- * Release id : 1.0
- * Release state : BETA
- * Release date : 2019-12-XX
- * 
  * @author Mickaël Outhier <contact@mickael-outhier.fr>
  *
- * @copyright (c) 2019 Mickaël Outhier (contact@mickael-outhier.fr)
+ * @copyright (c) 2021 Mickaël Outhier (contact@mickael-outhier.fr)
  *  
  * @license The MIT License (MIT)
  *
@@ -39,6 +35,15 @@ namespace moFilesManager;
 
 class FileMimeTypes {
 
+    /**
+     * Return the file type based on the file mime_type
+     * 
+     * @param   string  $mime_type
+     * 
+     * @return  string  $file_type
+	 *
+	 * @since   1.1.0
+    */
     public function getType($mime_type) : string {
 
         $mime_segments = explode('/', $mime_type);
