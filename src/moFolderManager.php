@@ -763,6 +763,7 @@ class Folder {
 	 * @return  bool  TRUE in case of success, else FALSE
 	 *
 	 * @since   1.1.0
+     * @version Last change on 1.1.2 // 2020-07-26
 	 */
     public function create() : bool {
 
