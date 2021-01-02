@@ -212,7 +212,7 @@ class moFilesManager {
     }
 
     /*
-    * @since   1.3.0
+    * @since   1.1.3
     */
     public static function __callStatic($name, $arguments) {
 
