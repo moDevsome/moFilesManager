@@ -6,14 +6,10 @@
  * A small library for handling files and folders more easier
  * 
  * Required PHP Version : PHP 7.0 or higher
- * 
- * Release id : 1.0
- * Release state : BETA
- * Release date : 2019-12-XX
- * 
+ *
  * @author Mickaël Outhier <contact@mickael-outhier.fr>
  *
- * @copyright (c) 2019 Mickaël Outhier (contact@mickael-outhier.fr)
+ * @copyright (c) 2021 Mickaël Outhier (contact@mickael-outhier.fr)
  *  
  * @license The MIT License (MIT)
  *
@@ -44,6 +40,13 @@ if($php_version < 7.0) {
 
 }
 
+// The extension Fileinfo is required
+if(extension_loaded('fileinfo') === FALSE) {
+
+    trigger_error('moFilesManager require the extension "Fileinfo"', E_USER_ERROR);
+
+}
+
 require_once 'moFileManager.php';
 require_once 'moFileManagerMimeTypes.php';
 require_once 'moFolderManager.php';
@@ -63,11 +66,11 @@ class moFilesManager {
      *
      * @return  string the last trace is debuging is enabled
      *
-     * @since   1.0.0
+     * @since   1.1.0
      */
     public static function getLastLog() : string {
 
-        $logs = __::getLogs();
+        $logs = self::getLogs();
         return $logs[count($logs) - 1];
 
     }
@@ -77,7 +80,7 @@ class moFilesManager {
      *
      * @return  array An array containing each trace is debuging is enabled
      *
-     * @since   1.0.0
+     * @since   1.1.0
      */
     public static function getLogs() : array {
 
@@ -90,7 +93,7 @@ class moFilesManager {
      *
      * @return  array An array containing $state and $display_error value
      *
-     * @since   1.0.0
+     * @since   1.1.0
      */
     public static function getDebugState() : array {
 
@@ -106,7 +109,7 @@ class moFilesManager {
      *
      * @return  void
      *
-     * @since   1.0.0
+     * @since   1.1.0
      */
     public static function setDebugState(bool $state, bool $display_error = FALSE) : void {
 
@@ -123,7 +126,7 @@ class moFilesManager {
      * 
      * @return  string $path
 	 *
-	 * @since   1.0.0
+	 * @since   1.1.0
 	 */
     public static function formatPath(string $path) : string {
         
@@ -159,36 +162,12 @@ class moFilesManager {
      * PLEASE Don't use the following methods
      * *************************************
      */
-    private static function checkCall() {
-
-        $debug_back_trace = debug_backtrace();
-
-        if(isset($debug_back_trace[1]['file'])) {
-
-            $file_path_segments = explode(DIRECTORY_SEPARATOR, $debug_back_trace[1]['file']);
-            $count_file_path_segments = count($file_path_segments);
-            $file_name = $file_path_segments[$count_file_path_segments - 1];
-            $file_folder = $file_path_segments[$count_file_path_segments - 3];
-
-            if(in_array($file_name, array('moFolderManager.php','moFileManager.php','moFilesManager.php')) AND $file_folder === 'mofilesmanager') {
-
-                return TRUE;
-
-            }
-
-        }
-        
-        return FALSE;
-    }
-
-    public static function addLog(string $log, string $type = 'INFO') : void {
-
-        if(self::checkCall() === FALSE) { trigger_error('Wrong way ! moFilesManager::addLog() cannot be called from this context', E_USER_ERROR); }
+    private static function addLog(string $log, string $type = 'INFO') : void {
 
         if(self::$debug_state === FALSE) { return; }
 
-        $call_line = debug_backtrace()[0]['line'];
-        $back_trace = debug_backtrace()[1];
+        $call_line = debug_backtrace()[1]['line'];
+        $back_trace = debug_backtrace()[2];
         $index = count(self::$logs) + 1;
         $log = date('Y-m-d H:i:s').' ['.$index.'] '.$type.' ['.$back_trace['class'].$back_trace['type'].$back_trace['function'].'()][line '.$call_line.'] '.$log;
         
@@ -212,9 +191,7 @@ class moFilesManager {
         self::$logs[] = $log;
     }
 
-    public static function getRandomString() : string {
-        
-        if(self::checkCall() === FALSE) { trigger_error('Wrong way ! moFilesManager::addLog() cannot be called from this context', E_USER_ERROR); }
+    private static function getRandomString() : string {
 
         $characters = str_split( str_shuffle('0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ') );
         $start = rand(12, count($characters) - 12);
@@ -231,6 +208,44 @@ class moFilesManager {
         while($counter < 9);
 
         return $random_string;
+
+    }
+
+    /*
+    * @since   1.3.0
+    */
+    public static function __callStatic($name, $arguments) {
+
+        $class_back_trace = array_diff(array_column(debug_backtrace(), 'class'), array('moFilesManager\moFilesManager'));
+        
+        if(count($class_back_trace ) > 0) {
+
+            $calling_class = array_shift($class_back_trace);
+
+            if($calling_class === 'moFilesManager\File' OR $calling_class === 'moFilesManager\Folder') {
+
+                switch($name) {
+
+                    case 'addLog' :
+                    self::addLog($arguments[0], isset($arguments[1]) ? $arguments[1] : 'INFO');
+                    return;
+                    break;
+
+                    case 'getRandomString' :
+                    return self::getRandomString();
+                    break;
+
+                    default :
+                    trigger_error('This method does exist', E_USER_ERROR);
+                    break;
+
+                }
+
+            }
+
+        }
+        
+        trigger_error('Wrong way ! moFilesManager static methods cannot be called from this context', E_USER_ERROR);
 
     }
 
