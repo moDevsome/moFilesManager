@@ -6,9 +6,35 @@ php: >=7.0.0
 Fileinfo PHP extension
 
 ## How to use
-The better way for adding moFilesManager to your application is to use Composer, here's the  URL of the Packagist page : https://packagist.org/packages/modevsome/mofilesmanager  
+
+### Installation
+The better way for adding moFilesManager to your application is to use Composer by launching it in your dev environment, here's the  URL of the Packagist page : https://packagist.org/packages/modevsome/mofilesmanager  
   
 You can also download the last release.
+
+### Tests
+Once moFilesManager is added into your application, don't hesitate to play some tests for checking the basic functions of the library. Open you command line tool and execute the following command :
+```cli
+cd [YOUR APP PATH]\vendor\modevsome\mofilesmanager\tests
+php run.php
+```
+You can ask a log file of the tests by adding ths param : -log
+
+### Basic usage
+```php
+// Handle a folder
+$folder_object = new moFilesManager\Folder( $folder_path );
+
+// Handle a file
+$file_object = new moFilesManager\File( $file_path );
+```
+You can read the method summary below to find out all the features.
+
+### ![#f03c15](https://via.placeholder.com/15/f03c15/000000?text=+) IMPORTANTS ADVICES ![#f03c15](https://via.placeholder.com/15/f03c15/000000?text=+)
+* write and test your script in a local dev environment
+* avoid using moFilesManager for very complex files tree, with too many files and nested subfolder, it prevent crash caused by too much recursivity, "out of time" or "out of memory" execution (for example, dispatch your task if you have a high quantity of files to process)
+* don't forget to remove the "tests" folder before pushing your application to your production environment
+
 
 ## moFilesManager\Folder methodes summary
 
