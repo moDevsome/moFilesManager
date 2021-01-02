@@ -1,6 +1,14 @@
-moFilesManager is a small library for handling files and folders more easier in PHP.
+**moFilesManager is a small library for handling files and folders more easier in PHP.  
+The library provide two objects, one for handling files and one for handling folders.**
 
-The library provide two objects, one for handling files and one for handling folders.
+## Required Configuration
+php: >=7.0.0  
+Fileinfo PHP extension
+
+## How to use
+The better way for adding moFilesManager to your application is to use Composer, here's the  URL of the Packagist page : https://packagist.org/packages/modevsome/mofilesmanager  
+  
+You can also download the last release.
 
 ## moFilesManager\Folder methodes summary
 
@@ -169,7 +177,7 @@ This method upload a file.
 @param $tmp_name : The file tmp_name (required). It can be found in the associeted row of the superglobal $_FILES.  
 @param $replace : TRUE to replace the current file if it already exist. Default : TRUE  
 @param $allowed_types : An array which contain one or more file type that will be accepted, if this param if empty, all types will be accepted.  
-@param $max_size : The allowed maximum file size (must be provided in OCTET).  
+@param $max_size : The allowed maximum file size (must be provided in BYTES).  
 This method return TRUE in case of success, else FALSE.
 
 ## moFilesManager\moFilesManager methodes summary
