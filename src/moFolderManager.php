@@ -5,7 +5,7 @@
  * 
  * @author Mickaël Outhier <contact@mickael-outhier.fr>
  *
- * @copyright (c) 2019 Mickaël Outhier (contact@mickael-outhier.fr)
+ * @copyright (c) 2021 Mickaël Outhier (contact@mickael-outhier.fr)
  *  
  * @license The MIT License (MIT)
  *
@@ -33,7 +33,8 @@ use moFilesManager;
 /**
  * Folder handler class.
  *
- * @since       1.0.0
+ * @since       1.1.0
+ * @version     Last change on 1.1.3 // 2020-12-20
  */
 class Folder {
 
@@ -62,7 +63,7 @@ class Folder {
      * 
      * @return  array  An array that contain the number of restored files and restored folders
 	 *
-	 * @since   1.0.0
+	 * @since   1.1.0
 	 */
     private function rollBack($initial_path) : array {
 
@@ -133,7 +134,7 @@ class Folder {
      * 
      * @return  bool  TRUE in case of success, else FALSE 
 	 *
-	 * @since   1.0.0
+	 * @since   1.1.0
 	 */
     private function backupFolder(string $folder_path) : bool {
 
@@ -166,7 +167,7 @@ class Folder {
      * 
      * @return  bool  Result
 	 *
-	 * @since   1.0.0
+	 * @since   1.1.0
      */
     private function __copy(string $copy_path) : bool {
         
@@ -225,7 +226,7 @@ class Folder {
      * 
      * @return  bool  Result
 	 *
-	 * @since   1.0.0
+	 * @since   1.1.0
      */
     private function __drain() : bool {
 
@@ -289,7 +290,7 @@ class Folder {
      * 
      * @return  bool  Result
 	 *
-	 * @since   1.0.0
+	 * @since   1.1.0
      */
     private function __delete() : bool {
 
@@ -323,7 +324,8 @@ class Folder {
      * 
      * @return  object  The updated current ZipArchive object in case of success, Else a stdClass empty object
 	 *
-	 * @since   1.0.0
+	 * @since   1.1.0
+     * @version Last change on 1.1.3 // 2021-01-02
      */
     private function __zip(string $folder_path, string $initial_folder_path, object $current_zipper_obj, string $archive_path) : object {
 
@@ -335,13 +337,19 @@ class Folder {
 
         $initial_object_path = $this->path;
         $local_path = str_ireplace(dirname($initial_folder_path), '', $folder_path);
+        
+        // @Since 1.1.3
+        $local_path = ltrim($local_path, DIRECTORY_SEPARATOR);
+        $local_path = str_ireplace(DIRECTORY_SEPARATOR, '/', $local_path);
+        
         $this->setPath($folder_path);
 
         foreach($this->content['files'] as $file) {
 
+
             $file_path = $this->path .DIRECTORY_SEPARATOR. $file;
 
-            if($current_zipper_obj->addFile($file_path, $local_path .DIRECTORY_SEPARATOR. $file) === TRUE) {
+            if($current_zipper_obj->addFile($file_path, $local_path .'/'. $file) === TRUE) {
 
                 // Add the compression method for this file
                 // @see https://github.com/php/php-src/commit/3a55ea02
@@ -374,7 +382,7 @@ class Folder {
 
         foreach($this->content['folders'] as $folder) {
 
-            $dirname = $local_path .DIRECTORY_SEPARATOR. $folder;
+            $dirname = $local_path .'/'. $folder;
 
             if($current_zipper_obj->addEmptyDir( $dirname ) === TRUE) {
 
@@ -404,7 +412,7 @@ class Folder {
      * 
      * @return  string $path
 	 *
-	 * @since   1.0.0
+	 * @since   1.1.0
 	 */
     private function formatPath(string $path) : string {
         
@@ -419,7 +427,7 @@ class Folder {
      * 
      * @return  object  The current folder object
 	 *
-	 * @since   1.0.0
+	 * @since   1.1.0
 	 */
     public function setPath(string $path) : object {
         
@@ -469,7 +477,7 @@ class Folder {
 	 *
 	 * @return  bool  TRUE in case of success, else FALSE
 	 *
-	 * @since   1.0.0
+	 * @since   1.1.0
 	 */
     public function copy(string $copy_path, bool $replace = TRUE) : bool {
 
@@ -711,7 +719,7 @@ class Folder {
 	 *
 	 * @return  bool  TRUE in case of success, else FALSE
 	 *
-	 * @since   1.0.0
+	 * @since   1.1.0
 	 */
     public function move(string $new_path, bool $replace = TRUE) : bool {
 
@@ -754,7 +762,7 @@ class Folder {
      * 
 	 * @return  bool  TRUE in case of success, else FALSE
 	 *
-	 * @since   1.0.0
+	 * @since   1.1.0
 	 */
     public function create() : bool {
 
@@ -775,7 +783,7 @@ class Folder {
         $parent_path = '';
         foreach(array_diff( explode(DIRECTORY_SEPARATOR, $this->path) , array('') )  as $path_segment ) {
 
-	    //  2020-07-26. The following lines has been added for OS compatibility
+	        //  2020-07-26. The following lines has been added for OS compatibility
             if(strlen($parent_path) === 0 AND PHP_OS === 'WINNT') {
 
                 $parent_path.= $path_segment;
@@ -839,7 +847,7 @@ class Folder {
 	 *
 	 * @return  bool  TRUE in case of success, else FALSE
 	 *
-	 * @since   1.0.0
+	 * @since   1.1.0
 	 */
     public function rename(string $new_name, bool $replace = TRUE) : bool {
 
@@ -928,7 +936,7 @@ class Folder {
      * 
 	 * @return  bool  TRUE in case of success, else FALSE
 	 *
-	 * @since   1.0.0
+	 * @since   1.1.0
 	 */
     public function drain() : bool {
 
@@ -1038,7 +1046,7 @@ class Folder {
      * 
 	 * @return  bool  TRUE in case of success, else FALSE
 	 *
-	 * @since   1.0.0
+	 * @since   1.1.0
 	 */
     public function delete() : bool {
 
@@ -1082,7 +1090,8 @@ class Folder {
 	 *
 	 * @return  bool  TRUE in case of success, else FALSE
 	 *
-	 * @since   1.0.0
+	 * @since   1.1.0
+     * @version Last change on 1.1.3 // 2021-01-02
 	 */
     public function zip(string $archive_path = '', bool $replace = TRUE, array $options = array()) : bool {
 
@@ -1190,11 +1199,13 @@ class Folder {
 
         }
 
+        $zipper->addEmptyDir( basename($this->path) ); // @since   1.1.3
+
         foreach($this->content['files'] as $file) {
 
             $file_path = $this->path .DIRECTORY_SEPARATOR. $file;
 
-            if($zipper->addFile($file_path, basename($this->path) .DIRECTORY_SEPARATOR. $file) === TRUE) {
+            if($zipper->addFile($file_path, basename($this->path) .'/'. $file) === TRUE) {
 
                 // Add the compression method
                 // @see https://github.com/php/php-src/commit/3a55ea02
@@ -1227,7 +1238,7 @@ class Folder {
 
         foreach($this->content['folders'] as $folder) {
 
-            $dirname = basename($this->path) .DIRECTORY_SEPARATOR. $folder;
+            $dirname = basename($this->path) .'/'. $folder;
 
             if($zipper->addEmptyDir( $dirname ) === TRUE) {
 
@@ -1305,7 +1316,7 @@ class Folder {
 	 *
 	 * @return  bool  TRUE in case of success, else FALSE
 	 *
-	 * @since   1.0.0
+	 * @since   1.1.0
 	 */
     public function unzip(string $zip_path = '', bool $replace = TRUE) : bool {
 
@@ -1424,6 +1435,7 @@ class Folder {
             return FALSE;
 
         }
+        
         $archived_folder_path = $this->path .DIRECTORY_SEPARATOR. $this->content['folders'][0];
 
         if(is_dir($archived_folder_path) === FALSE) {
@@ -1437,7 +1449,8 @@ class Folder {
             return FALSE;
 
         }
-        $this->setPath($archived_folder_path);
+        // Change since 1.1.3, we don't use the subfolder extracted in the extraction folder
+        // $this->setPath($archived_folder_path);
 
         $tmp_folder_path = dirname($initial_object_path) .DIRECTORY_SEPARATOR. basename($initial_object_path).'_'.moFilesManager\moFilesManager::getRandomString().'_mofilesmanager_tmp';
         if($this->copy($tmp_folder_path) === FALSE) {
@@ -1457,7 +1470,7 @@ class Folder {
         $this->__delete();
 
         // Delete the backup folder if exist
-        if(is_dir($this->tmp_backup_folder_pat)) {
+        if(is_dir($this->tmp_backup_folder_path)) {
 
             $this->setPath( $this->tmp_backup_folder_path );
             $this->__delete();
