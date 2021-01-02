@@ -15,7 +15,7 @@
         "files": ["src/moFilesManager.php"]
     },
     "require": {
-        "php": ">=7.0.0"
+        "php": ">=7.0.0",
         "ext-fileinfo": "*"
     }
 }
