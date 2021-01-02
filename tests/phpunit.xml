@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8" ?>
-<phpunit colors="true" cacheResult="false">
-    <testsuite name="mofilesmanager">
-        <file>FolderTest.php</file>
-        <file>FileTest.php</file>
-    </testsuite>
-</phpunit>
