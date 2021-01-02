@@ -88,7 +88,7 @@ This method return TRUE in case of success, else FALSE.
 $folder_object->drain();
 ```
 This method recursively remove all items contained into the folder.  
-A rollback function minimise the impact of eventuel errors occurred during the process.  
+A rollback function minimise the impact of eventual errors occurred during the process.  
 This method return TRUE in case of success, else FALSE.
 
 ### Delete the folder
@@ -96,7 +96,7 @@ This method return TRUE in case of success, else FALSE.
 $folder_object->delete();
 ```
 This method delete the folder, even if there's files or subfolders contained in the folder.  
-A rollback function minimise the impact of eventuel errors occurred during the process.  
+A rollback function minimise the impact of eventual errors occurred during the process.  
 This method return TRUE in case of success, else FALSE.
 
 ### Make a Zip archive of the folder
@@ -115,7 +115,7 @@ $folder_object->unzip(string $archive_path = '', $replace);
 ```
 The path of the zip file must be provided throw the param $archive_path.  
 The boolean param $replace is optionnal. If the param is equal to TRUE, the folder we be replaced if it already exist, if the param is equal to FALSE, the existing folder will be not replaced. By default the param is equal to TRUE.  
-A rollback function minimise the impact of eventuel errors occurred during the process. 
+A rollback function minimise the impact of eventual errors occurred during the process. 
 This method return TRUE in case of success, else FALSE.
 
 ## moFilesManager\File methodes summary
