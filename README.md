@@ -118,6 +118,8 @@ The boolean param $replace is optionnal. If the param is equal to TRUE, the fold
 A rollback function minimise the impact of eventual errors occurred during the process. 
 This method return TRUE in case of success, else FALSE.
 
+IMPORTANT : The extracted archive need to be outside the target folder.
+
 ## moFilesManager\File methodes summary
 
 ### Create a File instance
