@@ -1,8 +1,4 @@
-[![Latest Stable Version](http://poser.pugx.org/modevsome/mofilesmanager/v)](https://packagist.org/packages/modevsome/mofilesmanager)
-
-[![Total Downloads](http://poser.pugx.org/modevsome/mofilesmanager/downloads)](https://packagist.org/packages/modevsome/mofilesmanager)
-
-[![License](http://poser.pugx.org/modevsome/mofilesmanager/license)](https://packagist.org/packages/modevsome/mofilesmanager)
+[![Latest Stable Version](http://poser.pugx.org/modevsome/mofilesmanager/v)](https://packagist.org/packages/modevsome/mofilesmanager)    [![Total Downloads](http://poser.pugx.org/modevsome/mofilesmanager/downloads)](https://packagist.org/packages/modevsome/mofilesmanager)    [![License](http://poser.pugx.org/modevsome/mofilesmanager/license)](https://packagist.org/packages/modevsome/mofilesmanager)
 
 **moFilesManager is a small library for handling files and folders more easier in PHP.  
 The library provide two objects, one for handling files and one for handling folders.**
