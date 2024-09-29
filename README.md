@@ -210,6 +210,16 @@ This method upload a file.
 @param $max_size : The allowed maximum file size (must be provided in BYTES).  
 This method return TRUE in case of success, else FALSE.
 
+### Get the FileStream
+```php
+$file_object->getStream($fopenMode, $forceFolderCreation);
+```
+DO NOT FORGET TO CLOSE the STREAM with FCLOSE!  
+@param   string  $fopenMode  
+@param   boolean $forceFolderCreation  
+@return  mixed  Returns a file pointer resource on success, or FALSE on failure  
+@since   1.1.4
+
 ## moFilesManager\moFilesManager methodes summary
 
 **The following methods must be called statically.**
