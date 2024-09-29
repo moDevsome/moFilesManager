@@ -625,7 +625,48 @@ class File {
         $this->setPath($this->path);
     
         return TRUE;
-        
+
+    }
+
+    /**
+	 * Get the FileStream
+     * DO NOT FORGET TO CLOSE the STREAM with FCLOSE!
+     * @see https://www.php.net/manual/en/function.fopen.php
+	 *
+     * @param   string  $fopenMode
+     * @param   boolean $forceFolderCreationE
+     *
+	 * @return  mixed  Returns a file pointer resource on success, or FALSE on failure
+	 *
+	 * @since   1.1.4
+	 */
+    public function getStream(string $fopenMode, bool $forceFolderCreation = FALSE) : mixed {
+
+        if(is_dir($this->folder) === FALSE) {
+
+            if($forceFolderCreation === FALSE) {
+
+                moFilesManager\moFilesManager::addLog('The file folder "'.$this->folder.'" does not exist and forceFolderCreation is set to FALSE. Return : FALSE.', 'ERROR');
+                return FALSE;
+
+            }
+            else {
+
+                $folder = new Folder($this->folder);
+                if($folder->create() === FALSE) {
+
+                    moFilesManager\moFilesManager::addLog('The file folder "'.$this->folder.'" could not be created. Return : FALSE.', 'ERROR');
+                    return FALSE;
+
+                }
+
+            }
+
+
+        }
+
+        return fopen($this->path, $fopenMode);
+
     }
 
     public function __get($name) {

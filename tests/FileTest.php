@@ -252,5 +252,45 @@ class FileTest {
 
     }
 
+    /**
+     * Test of the moFilesManager\File->getStream() method
+     *
+     * @return void
+     *
+     * @since       1.1.4
+     */
+    public function test_getStream() : bool {
+
+        // Init
+        $file_content = '<p>hello world</p>';
+        $file_path = TESTS_SCRIPT_PATH .DIRECTORY_SEPARATOR. 'running' .DIRECTORY_SEPARATOR. 'file_stream_test.txt';
+        $file_obj = new moFilesManager\File($file_path);
+
+        // Test w+
+        $w_stream = $file_obj->getStream('w+', TRUE);
+        if($w_stream === FALSE) {
+
+            return FALSE;
+
+        }
+        fwrite($w_stream, $file_content);
+        fclose($w_stream);
+
+        // Test r
+        $r_stream = $file_obj->getStream('r');
+        if($r_stream === FALSE) {
+
+            return FALSE;
+
+        }
+        $result = fread($r_stream, strlen($file_content)) === $file_content;
+        fclose($r_stream);
+
+        $file_obj->delete();
+
+        return $result;
+
+    }
+
 }
 ?>
